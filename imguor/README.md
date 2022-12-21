@@ -1,9 +1,12 @@
 ## imguor
 Upload images to imgur through command line.
 
+To perform actions against imgur API, imguor uses a bearer token, which can be replace with new one. (located at line 21)
+
 ```
-imguor usage
--------------
-imguor --upload [image_file] (to upload image)
-imguor --help (this screen)
+Usage: imguor [option] [file]
+Example: imguor example.png
+
+ --help (this screen)
 ```
+
