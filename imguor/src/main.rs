@@ -45,8 +45,8 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
 
     if args.len() < 2 || (args.len() == 2 && args[1] == "--help") {
-        println!("
-Usage: imguor [option] [file]
+        println!(
+"Usage: imguor [option] [file]
 Example: imguor example.png
 
  --help (this screen)
@@ -62,9 +62,9 @@ Example: imguor example.png
     let mut imgur_auth = Imgur{ client_id: "313baf0c7b4d3ff".to_string(), image: &args[1] };
     let resp = imgur_auth.upload();
 
-    // This structure is ugly, but nothing I can do for now except extracting json directly
     let json: Value = serde_json::from_str(&resp).unwrap();
     
+    // JSON array indexing in Rust is pretty cool
     let status = &json["status"];
     let id = json["data"]["id"].as_str().unwrap();
     let date = UNIX_EPOCH + Duration::from_secs(json["data"]["datetime"].as_u64().unwrap());
@@ -83,22 +83,9 @@ Example: imguor example.png
         println!("Something went wrong, error code: {}", status);
     } else {
         if mp4 == "" {
-            println!(r"
-ID: {0}
-Date: {1}
-Time: {2}
-Delete hash: {3}
-Size: {4}x{5}
-Link: {6}", id, dt_str, tm_str, delete_hash, width, height, link);
+            println!("ID: {id}\nDate: {dt_str}\nTime: {tm_str}\nDelete hash: {delete_hash}\nSize: {width}x{height}\nLink: {link}");
         } else {
-            println!(r"
-ID: {0}
-Date: {1}
-Time: {2}
-Delete hash: {3}
-Size: {4}x{5}
-Link: {6}
-MP4: {7}", id, dt_str, tm_str, delete_hash, width, height, link, mp4);
+            println!("ID: {id}\nDate: {dt_str}\nTime: {tm_str}\nDelete hash: {delete_hash}\nSize: {width}x{height}\nLink: {link}\nMP4: {mp4}");
         }
     }
 }
